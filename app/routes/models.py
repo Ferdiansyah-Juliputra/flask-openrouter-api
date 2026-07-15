@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from config.config import OPENROUTER_MODEL
+from app.config.config import OPENROUTER_MODEL
 
 models_bp = Blueprint("models", __name__)
 

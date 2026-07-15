@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify
-from config.config import OPENROUTER_MODEL
+from app.config.config import OPENROUTER_MODEL
 
 health_bp = Blueprint("health", __name__)
 

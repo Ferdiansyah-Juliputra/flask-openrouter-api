@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from app.services.openrouter_services import generate_response
-from logger.logger import logger
+from app.logger.logger import logger
 
 chat_bp = Blueprint("chat", __name__)
 

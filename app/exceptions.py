@@ -1,0 +1,2 @@
+class OpenRouterError(Exception):
+    pass
