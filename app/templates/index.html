@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenRouter Flask API</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+<div class="container">
+    <h1>OpenRouter Flask API</h1>
+
+    <textarea
+        id="message"
+        placeholder="Type your message..."
+    ></textarea>
+
+    <button id="sendBtn">
+        Send
+    </button>
+
+    <div class="response">
+        <h3>Response</h3>
+        <p id="reply">Waiting for response...</p>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+
+</body>
+</html>
