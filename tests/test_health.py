@@ -1,4 +1,8 @@
-def test_health(client):
+from unittest.mock import patch
+
+@patch("app.routes.health.check_health")
+def test_health(mock_check_health, client):
+    mock_check_health.return_value = {"status": "healthy"}
 
     response = client.get("/health")
 

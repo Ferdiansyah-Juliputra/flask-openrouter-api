@@ -4,8 +4,38 @@ from app.logger.logger import logger
 
 chat_bp = Blueprint("chat", __name__)
 
-@chat_bp.route("/chat", methods=["GET","POST"])
+@chat_bp.route("/chat", methods=["POST"])
 def chat():
+    """
+    Generate AI response
+    ---
+    tags:
+      - Chat
+
+    consumes:
+      - application/json
+
+    parameters:
+      - in: body
+        name: body
+        required: true
+        schema:
+          type: object
+          properties:
+            message:
+              type: string
+              example: Hello!
+
+    responses:
+      200:
+        description: Response generated successfully
+
+      400:
+        description: Invalid request
+
+      500:
+        description: Internal server error
+    """
 
     logger.info(f"Received request: {request.method} {request.path}")
 
@@ -38,7 +68,7 @@ def chat():
 
     reply = generate_response(prompt)
     
-    logger.info(f"Successfully generated reply: {reply}")
+    logger.info(f"Successfully generated reply ({len(reply)} characters)")
 
     return jsonify({
         "success": True,
