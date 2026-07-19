@@ -2,6 +2,7 @@ from io import BytesIO
 
 from app.schemas.review import ResumeReview
 
+
 def test_review_success(client, monkeypatch):
     monkeypatch.setattr(
         "app.routes.review.review_resume",
@@ -40,29 +41,6 @@ def test_review_success(client, monkeypatch):
     assert body["success"] is True
     assert body["data"]["ats_score"] == 85
     assert body["data"]["strengths"] == ["Python"]
-
-from io import BytesIO
-
-
-def test_review_without_requirement(client):
-    response = client.post(
-        "/review",
-        data={
-            "resume": (
-                BytesIO(b"dummy"),
-                "resume.pdf"
-            )
-        },
-        content_type="multipart/form-data"
-    )
-
-    assert response.status_code == 400
-
-    body = response.get_json()
-
-    assert body["success"] is False
-
-from io import BytesIO
 
 
 def test_review_without_requirement(client):
