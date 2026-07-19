@@ -38,7 +38,7 @@ def generate_response(prompt):
 
             data = response.json()
 
-            logger.info("Succesfully parsed OpenRouter response JSON")
+            logger.info("Successfully parsed OpenRouter response JSON")
 
             return data["choices"][0]["message"]["content"]
         
