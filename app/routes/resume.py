@@ -20,6 +20,7 @@ def upload_resume():
 
     filename = secure_filename(file.filename)
     file_path = UPLOAD_FOLDER / filename
+    UPLOAD_FOLDER.mkdir(parents=True, exist_ok=True)
 
     file.save(file_path)
 
