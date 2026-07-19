@@ -1,13 +1,30 @@
-from langchain import PyPDFLoader, WebBaseLoader
-import bs4
+from pathlib import Path
 
-def load_from_url(url):
-    loader = WebBaseLoader(
-        web_path=url,
-        bs_kwargs=dict(parse_only=bs4.SoupStrainer("p"))
+from app.exceptions import ValidationError
+from app.loaders.pdf_loader import load_pdf
+from app.loaders.docx_loader import load_docx
+from app.loaders.text_loader import load_text
+
+LOADERS = {
+    "pdf": load_pdf,
+    "docx": load_docx,
+    "txt": load_text,
+}
+
+
+def load_document(source: str) -> str:
+    extension = Path(source).suffix.lower().lstrip(".")
+
+    loader = LOADERS.get(extension)
+
+    if loader is None:
+        raise ValidationError(
+            f"Unsupported file type: {extension}"
+        )
+
+    documents = loader(source)
+
+    return "\n".join(
+        doc.page_content
+        for doc in documents
     )
-    return loader.load()
-
-def load_from_pdf(file_path):
-    loader = PyPDFLoader(file_path)
-    return loader.load()

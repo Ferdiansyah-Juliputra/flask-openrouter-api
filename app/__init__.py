@@ -1,9 +1,12 @@
 from flask import Flask, render_template
 from flasgger import Swagger
-from app.routes.chat import chat_bp
-from app.routes.health import health_bp
-from app.routes.models import models_bp
+
 from app.error_handler import register_error_handlers
+
+from app.routes.health import health_bp
+from app.routes.resume import resume_bp
+from app.routes.review import review_bp
+
 
 def create_app():
     app = Flask(__name__)
@@ -11,21 +14,23 @@ def create_app():
     swagger_template = {
         "swagger": "2.0",
         "info": {
-            "title": "OpenRouter Flask API",
-            "description": "API for interacting with OpenRouter",
+            "title": "AI Resume Reviewer API",
+            "description": "REST API for AI-powered resume analysis, ATS scoring, and recommendations.",
             "version": "1.0.0"
         }
     }
 
     Swagger(app, template=swagger_template)
 
-    app.register_blueprint(chat_bp)
+    # Register Blueprints
     app.register_blueprint(health_bp)
-    app.register_blueprint(models_bp)
+    app.register_blueprint(resume_bp)
+    app.register_blueprint(review_bp)
+
     register_error_handlers(app)
 
-    @app.route('/')
+    @app.route("/")
     def index():
-        return render_template('index.html')
-    
+        return render_template("index.html")
+
     return app

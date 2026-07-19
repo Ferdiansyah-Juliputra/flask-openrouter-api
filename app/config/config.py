@@ -30,3 +30,5 @@ RETRIEVER_K = int(os.getenv("RETRIEVER_K", 5))
 
 # ======== Ollama =========
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "qwen3:4b")
+
+UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", "app/storage/uploads")
