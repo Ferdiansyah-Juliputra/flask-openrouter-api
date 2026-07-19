@@ -1,47 +1,53 @@
-import requests
 import time
-from app.logger.logger import logger
+import requests
+
 from app.config.config import (
     OPENROUTER_API_KEY,
-    OPENROUTER_MODEL,
     OPENROUTER_BASE_URL,
+    OPENROUTER_MODEL,
 )
 from app.exceptions import OpenRouterError
+from app.logger.logger import logger
 
-def generate_response(prompt):
-        logger.info(f"Sending request to OpenRouter using model '{OPENROUTER_MODEL}'")
-        start = time.perf_counter()
-        try:
-            response = requests.post(
-                f"{OPENROUTER_BASE_URL}/chat/completions",
-                headers={
-                    "Authorization": f"Bearer {OPENROUTER_API_KEY}",
-                    "Content-Type": "application/json",
-                },
-                json={
-                    "model": OPENROUTER_MODEL,
-                    "messages": [
-                        {
-                            "role": "user",
-                            "content": prompt,
-                        }
-                    ],
-                },
-                timeout=30,
-            )
-            elapsed = (time.perf_counter() - start)*1000
-            logger.info(
-                f"OpenRouter responded with {response.status_code} in {elapsed:.2f} ms"
-            )
 
-            response.raise_for_status()
+def generate(prompt: str) -> str:
+    logger.info(f"Using OpenRouter model '{OPENROUTER_MODEL}'")
 
-            data = response.json()
+    start = time.perf_counter()
 
-            logger.info("Successfully parsed OpenRouter response JSON")
+    try:
+        response = requests.post(
+            f"{OPENROUTER_BASE_URL}/chat/completions",
+            headers={
+                "Authorization": f"Bearer {OPENROUTER_API_KEY}",
+                "Content-Type": "application/json",
+            },
+            json={
+                "model": OPENROUTER_MODEL,
+                "messages": [
+                    {
+                        "role": "user",
+                        "content": prompt,
+                    }
+                ],
+            },
+            timeout=30,
+        )
 
-            return data["choices"][0]["message"]["content"]
-        
-        except requests.RequestException:
-              logger.exception("Failed to communicate with OpenRouter API")
-              raise OpenRouterError("Failed to communicate with OpenRouter API. Please try again later.")
+        response.raise_for_status()
+
+        elapsed = (time.perf_counter() - start) * 1000
+
+        logger.info(
+            "OpenRouter responded with %s in %.2f ms",
+            response.status_code,
+            elapsed,
+        )
+
+        return response.json()["choices"][0]["message"]["content"]
+
+    except requests.RequestException as e:
+        logger.exception("Failed to communicate with OpenRouter")
+        raise OpenRouterError(
+            "Failed to communicate with OpenRouter API."
+        ) from e
