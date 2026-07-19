@@ -1,9 +1,22 @@
 env/
+.venv/
+venv/
 .env
+.env.*
+!.env.example
 logs/
 __pycache__/
 *.pyc
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
 .vscode/
+.idea/
+build/
+dist/
+*.egg-info/
+.pytest_cache/
 
 app/storage/uploads/*
 !app/storage/uploads/.gitkeep

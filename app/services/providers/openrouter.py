@@ -17,7 +17,7 @@ def generate(prompt: str) -> str:
 
     try:
         response = requests.post(
-            f"{OPENROUTER_BASE_URL}/chat/completions",
+            f"{OPENROUTER_BASE_URL}",
             headers={
                 "Authorization": f"Bearer {OPENROUTER_API_KEY}",
                 "Content-Type": "application/json",
@@ -48,6 +48,4 @@ def generate(prompt: str) -> str:
 
     except requests.RequestException as e:
         logger.exception("Failed to communicate with OpenRouter")
-        raise OpenRouterError(
-            "Failed to communicate with OpenRouter API."
-        ) from e
+        raise OpenRouterError(str(e))

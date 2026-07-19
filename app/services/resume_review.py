@@ -1,11 +1,12 @@
 from app.prompts.review_prompt import build_review_prompt
 from app.services.llm import generate_response
+from app.schemas.review import ResumeReview
 
 
 def review_resume(
     resume: str,
     requirement: str,
-) -> str:
+) -> ResumeReview:
 
     prompt = build_review_prompt(
         resume=resume,

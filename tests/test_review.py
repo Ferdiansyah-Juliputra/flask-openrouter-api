@@ -1,9 +1,17 @@
 from io import BytesIO
 
+from app.schemas.review import ResumeReview
+
 def test_review_success(client, monkeypatch):
     monkeypatch.setattr(
         "app.routes.review.review_resume",
-        lambda resume, requirement: "ATS Score: 85"
+        lambda resume, requirement: ResumeReview(
+            ats_score=85,
+            summary="Strong Python match.",
+            strengths=["Python"],
+            missing_skills=["Docker"],
+            recommendations=["Add project metrics."],
+        )
     )
 
     monkeypatch.setattr(
@@ -30,6 +38,8 @@ def test_review_success(client, monkeypatch):
     body = response.get_json()
 
     assert body["success"] is True
+    assert body["data"]["ats_score"] == 85
+    assert body["data"]["strengths"] == ["Python"]
 
 from io import BytesIO
 

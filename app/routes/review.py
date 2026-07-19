@@ -79,5 +79,5 @@ def review():
 
     return jsonify({
         "success": True,
-        "data": result
+        "data": result.model_dump()
     }), 200
