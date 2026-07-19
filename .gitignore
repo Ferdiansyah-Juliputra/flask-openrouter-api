@@ -4,3 +4,9 @@ logs/
 __pycache__/
 *.pyc
 .vscode/
+
+app/storage/uploads/*
+!app/storage/uploads/.gitkeep
+
+app/storage/vector_db/*
+!app/storage/vector_db/.gitkeep
