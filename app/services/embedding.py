@@ -20,22 +20,3 @@ def split_documents(docs: list[Document]) -> list[Document]:
         chunk_overlap=CHUNK_OVERLAP,
     )
     return splitter.split_documents(docs)
-
-def create_vector_store(
-    documents: list[Document],
-) -> Chroma:
-    logger.info(f"Creating vector store at {Path(VECTOR_DB_PATH).resolve()}")
-    return Chroma.from_documents(
-        documents=documents,
-        embedding=EMBEDDINGS,
-        persist_directory=VECTOR_DB_PATH,
-        collection_name=COLLECTION_NAME,
-    )
-
-def load_vector_store(
-) -> Chroma:
-    return Chroma(
-        persist_directory=VECTOR_DB_PATH,
-        embedding_function=EMBEDDINGS,
-        collection_name=COLLECTION_NAME,
-    )
