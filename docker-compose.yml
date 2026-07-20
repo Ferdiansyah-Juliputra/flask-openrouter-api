@@ -10,4 +10,21 @@ services:
     env_file:
       - .env
 
+    environment:
+      RATELIMIT_STORAGE_URI: redis://redis:6379/0
+
+    depends_on:
+      redis:
+        condition: service_healthy
+
     restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5

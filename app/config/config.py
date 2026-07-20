@@ -18,3 +18,15 @@ EMBEDDING_MODEL = os.getenv(
 )
 
 UPLOAD_FOLDER = os.getenv("UPLOAD_FOLDER", "app/storage/uploads")
+
+# ========= Rate limiting =========
+RATELIMIT_ENABLED = os.getenv("RATELIMIT_ENABLED", "true").lower() == "true"
+RATELIMIT_STORAGE_URI = os.getenv("RATELIMIT_STORAGE_URI", "memory://")
+RATELIMIT_DEFAULT_LIMITS = os.getenv(
+    "RATELIMIT_DEFAULT_LIMITS",
+    "100/hour;500/day",
+)
+RATELIMIT_REVIEW_LIMITS = os.getenv(
+    "RATELIMIT_REVIEW_LIMITS",
+    "3/minute;15/hour",
+)

@@ -5,9 +5,10 @@ from app import create_app
 
 @pytest.fixture
 def client():
-    app = create_app()
-
-    app.config["TESTING"] = True
+    app = create_app({
+        "TESTING": True,
+        "RATELIMIT_ENABLED": False,
+    })
 
     with app.test_client() as client:
         yield client

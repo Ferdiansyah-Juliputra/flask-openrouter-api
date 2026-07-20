@@ -1,9 +1,10 @@
 from pathlib import Path
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, current_app, jsonify, request
 from werkzeug.utils import secure_filename
 
 from app.config.config import UPLOAD_FOLDER
+from app.extensions import limiter
 from app.loaders.document_loader import load_document
 from app.services.resume_review import review_resume
 
@@ -11,6 +12,7 @@ review_bp = Blueprint("review", __name__)
 
 
 @review_bp.route("/review", methods=["POST"])
+@limiter.limit(lambda: current_app.config["RATELIMIT_REVIEW_LIMITS"])
 def review():
     """
     Review Resume

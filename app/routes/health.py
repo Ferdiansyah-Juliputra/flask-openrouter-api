@@ -1,9 +1,12 @@
 from flask import Blueprint, jsonify
+
 from app.config.config import OPENROUTER_MODEL
+from app.extensions import limiter
 
 health_bp = Blueprint("health", __name__)
 
 @health_bp.route("/health", methods=["GET"])
+@limiter.exempt
 def health():
     """
     Check health status
